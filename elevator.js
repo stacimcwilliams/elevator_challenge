@@ -13,6 +13,7 @@ class Elevator {
     if(person.requestedFloor != this.currentFloor) {
       this.currentRiders.push(person)
       this.motionStatus = "moving"
+      this.currentFloor = person.currentFloor
     }
 
     if(this.currentRiders.length == 1) {

@@ -17,19 +17,11 @@ describe('Elevator', function() {
   it('should bring a rider to a floor above their current floor', (done) => {
     let person = new Person({ name: "Hilary", currentFloor: 4, requestedFloor: 5 })
     elevator.pickUpPerson(person);
+    assert.equal(elevator.currentFloor, 4)
     elevator.goToFloor();
-
     assert.equal(person.currentFloor, 5)
+    elevator.dropOffPerson(person)
     done()
-    // elevator.pickUpRider(person, 5);
-    //
-    // assert.deepEqual(elevator.currentRiders, [person])
-    // assert.equal(elevator.motionStatus, 'idle');
-    // assert.equal(elevator.currentFloor, 5)
-    // assert.equal(elevator.totalStops, 2)
-    // console.log(elevator.getStops());
-    // assert(elevator.getStops()).equals([2, 5]);
-    // assert.equal(elevator.addFloorTotal(5), 5)
   })
 
   it('should bring a rider to a floor below their current floor', (done) => {
@@ -64,7 +56,17 @@ it('should have a method called dropOffPerson that removes a rider from the arra
   elevator.pickUpPerson(person)
   elevator.dropOffPerson()
   assert.deepEqual(elevator.currentRiders, [])
-  // assert.deepEqual(elevator.currentRiders, [{ name: "Hilary", currentFloor: 4, requestedFloor: 1 }])
+})
+
+it('should pickup a new person and go to their current floor', () => {
+  let person1 = new Person({ name: "Chelsea", currentFloor: 2, dropOffFloor: 8 })
+  let person2 = new Person({ name: "Hillary", currentFloor: 6, dropOffFloor: 0 })
+
+  elevator.pickUpPerson(person1)
+  elevator.pickUpPerson(person2)
+  assert.equal(elevator.currentFloor, 6)
+  assert.equal(elevator.currentRiders.length, 2)
+  elevator.dropOffPerson(person1)
 })
 
 it('should have an attribute called totalStops that returns the total number of stops', () => {
@@ -77,4 +79,21 @@ it('should have an attribute called totalStops that returns the total number of 
   elevator.goToFloor()
   assert.equal(elevator.totalStops, 3)
 })
+
+it('should deliver two users going down', () => {
+  let person1 = new Person({ name: "Chelsea", currentFloor: 2, dropOffFloor: 8 })
+  let person2 = new Person({ name: "Hillary", currentFloor: 6, dropOffFloor: 0 })
+
+  elevator.pickUpPerson(person1)
+  elevator.pickUpPerson(person2)
+  assert.equal(elevator.currentRiders.length, 2)
+})
+
+
+
+it('should instantiate a new person',() => {
+  let chelsea = new Person({ name: "Chelsea", currentFloor: 2, requestedFloor: 5 })
+  assert.deepEqual(chelsea, { name: "Chelsea", currentFloor: 2, requestedFloor: 5 })
+})
+
 });
